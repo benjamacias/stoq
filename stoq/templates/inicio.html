@@ -1,0 +1,109 @@
+{% load static %}
+{% include "header.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>inicio</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'stoq/css/inicio.css' %}">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+<body>
+    <h1>Estadísticas de productos</h1>
+    <button id="changeChartType">Graficos</button>
+    {% for producto, meses in estadisticas.items %}
+        <h2>{{ producto }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Cantidad</th>
+                    <th>Precio de Compra</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for mes, datos in meses.items %}
+                    <tr>
+                        <td>{{ mes }}</td>
+                        <td>{{ datos.cantidad }}</td>
+                        <td>{{ datos.max_precio_compra }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <canvas class="myChartClass"></canvas>
+    {% endfor %}
+</body>
+<script>
+var charts = [];  // Array para almacenar los gráficos
+
+function createChart(labelsArray, dataArray, canvasClass) {
+    var canvases = document.getElementsByClassName(canvasClass);
+
+    // Destruye los gráficos anteriores
+    for (var i = 0; i < charts.length; i++) {
+        charts[i].destroy();
+    }
+
+    // Limpia el array de gráficos
+    charts = [];
+
+    for (var i = 0; i < canvases.length; i++) {
+        var ctx = canvases[i].getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: labelsArray[i],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: dataArray[i],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Almacena el gráfico en el array de gráficos
+        charts.push(myChart);
+    }
+}
+    var labelsArray = [];
+    var dataArray = [];
+    var chartType = 'bar';  // Tipo de gráfico inicial
+
+    var tables = document.querySelectorAll('table');
+
+    for (var i = 0; i < tables.length; i++) {
+        var labels = [];
+        var data = [];
+        var rows = tables[i].querySelectorAll('tr');
+
+        for (var j = 1; j < rows.length; j++) {
+            var cells = rows[j].querySelectorAll('td');
+            labels.push(cells[0].innerText);
+            data.push(cells[1].innerText);
+        }
+
+        labelsArray.push(labels);
+        dataArray.push(data);
+    }
+    
+   // Controlador de eventos para el botón
+   document.getElementById('changeChartType').addEventListener('click', function() {
+        // Cambia el tipo de gráfico
+
+        chartType = chartType === 'bar' ? 'line' : 'bar';
+
+        // Vuelve a crear los gráficos con el nuevo tipo
+        createChart(labelsArray, dataArray, 'myChartClass');
+    });
+</script>
+</html>

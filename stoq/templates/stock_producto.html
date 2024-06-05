@@ -1,0 +1,38 @@
+{% load static %}
+{% include "header.html" %}
+{% block content %}
+{% load my_filters %}
+<link rel="stylesheet" type="text/css" href="{% static 'stoq/css/stock_producto.css' %}">
+  <h2>Stock de {{ producto.nombre }}</h2>
+  <p>Stock historico: {{ producto.stock_total }}</p>
+  <p>Cantidad: {{ producto.cantidad }}</p>
+  <p>Stock por vencer: {{ producto.stock_mas_cercano_vencimiento }}</p>
+  <p>Stock no vencido: {{ producto.stock_no_vencido }}</p>
+  {% if producto|get_fecha_caducidad %}
+  <p>fecha de vencimiento: {{ producto|get_fecha_caducidad }}</p>
+  <a href="{% url 'agregar_stock' producto.pk %}" >
+    <button type="button">Agregar stock</button>
+  </a>
+  <a href="{% url 'agregar_cantidad' producto.pk %}" class="boton-agregar">
+    <button type="button">Agregar Cantidad</button>
+  </a>
+  {% endif %}
+
+
+  <ul>
+    {% for stock in stocks %}
+      <li>
+        <p>Proveedor: {{ stock.proveedor }}</p>
+        <p>Cantidad: {{ stock.cantidad }}</p>
+        <p>Precio de compra: {{ stock.precio_compra }}</p>
+        <p>Fecha de compra: {{ stock.fecha_ingreso }}</p>
+        <p>Fecha de vencimiento: {{ stock.fecha_caducidad }}</p>
+      </li>
+    {% empty %}
+      <li>No hay stocks disponibles para este producto.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'productos' %}">
+    <button type="button">Volver</button>
+  </a>
+{% endblock %}

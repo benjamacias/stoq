@@ -1,0 +1,96 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #343a40;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+}
+
+header h1 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: right
+}
+
+header nav ul li {
+    background-color: #282c34;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+header nav ul li:hover {
+    background-color: #754675;
+    color: #fff;
+    transform: scale(1);
+}
+
+header h1 {
+    color: #fff;
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#toggleButton {
+    position: static;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+nav {
+    position: relative;
+    overflow: hidden;
+}
+
+#navList {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+}
+
+#navList.open {
+    max-height: 500px;
+    transition: max-height 0.6s ease-in;
+}
+
+button {
+    background-color: #008CBA;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #007B9A;
+}

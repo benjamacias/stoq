@@ -1,0 +1,23 @@
+{% load static %}
+{% include "header.html" %}
+<head>
+    <title>clientes</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'stoq/css/clientes.css' %}">
+</head>
+{% if clientes %}
+    {% for cliente in clientes %}
+    <div class="cliente">
+        <p><strong>Nombre:</strong> {{ cliente.nombre }}</p>
+        <p><strong>Email:</strong> {{ cliente.email }}</p>
+        <p><strong>Telefono:</strong> {{ cliente.telefono }}</p>
+        <p><strong>Direccion:</strong> {{ cliente.direccion }}</p>
+        <p><strong>lat</strong> {{ cliente.latitud }}</p>
+        <p><strong>long</strong> {{ cliente.longitud }}</p>
+    </div>
+    {% endfor %}
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="{% if form.instance.pk %}Guardar cambios{% else %}Crear cliente{% endif %}">
+</form>

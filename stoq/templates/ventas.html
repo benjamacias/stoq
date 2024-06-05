@@ -1,0 +1,56 @@
+{% load static %}
+{% include "header.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Venta</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'stoq/css/ventas.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#id_producto').change(function() {
+            var productoId = $(this).val();
+            $.get('/get_precio_producto/', {producto_id: productoId}, function(data) {
+                $('#id_precio').val(data.precio);
+            });
+        });
+    });
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Detalles</h2>
+        {% for detalle in detalles %}
+            <p>Producto: {{ detalle.producto }}</p>
+            <p>Cantidad: {{ detalle.cantidad }}</p>
+            <p>Precio: {{ detalle.precio }}</p>
+            <p>Fecha Vencimiento: {{ detalle.fecha_caducidad }}</p>
+        {% empty %}
+            <p>No hay detalles para esta venta.</p>
+        {% endfor %}
+        
+        <div class="pagination">
+            <span class="step-links">
+                {% if detalles.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ detalles.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ detalles.number }} of {{ detalles.paginator.num_pages }}.
+                </span>
+        
+                {% if detalles.has_next %}
+                    <a href="?page={{ detalles.next_page_number }}">next</a>
+                    <a href="?page={{ detalles.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Agregar detalle">
+    </form>
+</body>
+</html>

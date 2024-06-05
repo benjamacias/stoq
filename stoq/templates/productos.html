@@ -1,0 +1,84 @@
+{% load my_filters %}
+{% load static %}
+{% include "header.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Productos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'stoq/css/productos.css' %}">
+</head>
+<body>
+    <button onclick="cambiarForma()">Cambiar a cuadrados</button>
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Buscar productos...">
+        <input type="submit" value="Buscar">
+    </form>
+    <ul class="columna">
+    {% for producto in productos %}
+        <li class="fila">
+        <div class="producto-info">
+                <h2>{{ producto.nombre }}</h2>
+                <p>Mayor precio comprado: {{ producto|get_precio_compra }}</p>
+                <div class="precio-venta">
+                    <p>Precio venta: {{ producto.precio }}</p>
+                    <form name="actualizar" class="desaparecer" method="POST" action="{% url 'actualizar_precio' producto.id %}">
+                        {% csrf_token %}
+                        <label for="nuevo_precio" >Nuevo precio:</label>
+                        <input type="number" id="nuevo_precio" name="nuevo_precio" min="0" step="0.01">
+                        <input type="submit" value="Actualizar precio">
+                    </form>
+                </div>
+
+            {% if producto.precio < producto|get_precio_compra %}
+            <p class="alerta">Alerta: El precio de venta es menor que el mayor precio comprado.</p>
+            {% endif %}
+
+            <div class="markup-venta">
+                <p>Markup: {{ producto.markup }}</p>
+                <form name="actualizar" class="desaparecer" method="POST" action="{% url 'actualizar_markup' producto.id %}">
+                    {% csrf_token %}
+                    <label for="nuevo_markup">Nuevo markup:</label>
+                    <input type="number" id="nuevo_markup" name="nuevo_markup" min="0" step="0.01">
+                    <input type="submit" value="Actualizar markup">
+                </form>
+            </div>
+
+            <p>Precio Markup: {{ producto.precio|multiply:producto.markup }}</p>
+            <p>Precio Total con Markup: {{ producto.precio|multiply:producto.markup|add:producto.precio }}</p>
+
+            <a href="{% url 'stock_producto' producto.pk %}" class="boton-agregar">
+                <button type="button">Ver stock</button>
+            </a>
+        </div>
+        </li>
+    {% empty %}
+        <li>No hay productos disponibles.</li>
+    {% endfor %}
+    </ul>
+
+</body>
+<script>
+function cambiarForma() {
+    var elementos = document.getElementsByClassName('fila');
+    var ul = document.getElementsByClassName('columna');
+    var desactivar = document.getElementsByClassName('desaparecer');
+
+    for (var i = 0; i < elementos.length; i++) {
+        elementos[i].classList.toggle('cuadrado');
+    }
+
+    for (var i = 0; i < ul.length; i++) {
+        ul[i].classList.toggle('cuadrado');
+    }
+
+    for (var i = 0; i < desactivar.length; i++) {
+        if (desactivar[i].style.display === 'none') {
+            desactivar[i].style.display = 'block';
+        } else {
+            desactivar[i].style.display = 'none';
+        }
+    }
+
+}
+</script>
+</html>

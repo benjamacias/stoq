@@ -1,0 +1,24 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'stoq/css/header.css' %}">
+</head>
+<header>
+    <h1>Stoq</h1>
+    <nav>
+        <ul id="navList">
+            <li><a href="{% url 'estadisticas' %}">Inicio</a></li>
+            <li><a href="{% url 'lista_ventas' %}">ventas</a></li>
+            <li><a href="{% url 'productos' %}">Productos</a></li>
+            <li><a href="{% url 'lista_clientes' %}">Clientes</a></li>
+            <!-- Agrega más enlaces aquí según sea necesario -->
+        </ul>
+    </nav>
+    <button id="toggleButton">↑↓</button>
+</header>
+<script>
+    var toggleButton = document.getElementById('toggleButton');
+    var navList = document.getElementById('navList');
+    toggleButton.addEventListener('click', function() {
+    navList.classList.toggle('open');
+});
+</script>

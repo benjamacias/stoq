@@ -1,0 +1,41 @@
+.cliente {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+.cliente p {
+    margin: 0;
+    padding: 0;
+}
+form {
+    margin-top: 20px;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+    input[type="text"], input[type="email"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        padding: 5px 10px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    .cliente {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+    }
+    .cliente p {
+        margin: 0;
+        padding: 0;
+    }

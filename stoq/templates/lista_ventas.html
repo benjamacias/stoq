@@ -1,0 +1,19 @@
+{% include "header.html" %}
+{% load my_filters %}
+{% block content %}
+<head>
+<title>ventas</title> 
+</head>
+  <h2>Ventas</h2>
+  <ul>
+    {% for venta in ventas %}
+      <ul>
+        <li><a href="{% url 'vista_venta' venta.id %}">{{ venta.fecha }}</a></li>
+        <li>{{venta.cliente}}</li>
+        <li>{{venta|get_valor_total}}</li>
+      </ul>
+    {% empty %}
+      <li>No hay ventas.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
