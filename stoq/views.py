@@ -11,7 +11,7 @@ from .forms import StockForm
 from .forms import ClienteForm
 from .forms import DetalleVentaForm
 from django.urls import reverse
-
+from config import API_KEY
 from .models import Venta, Stock
 from django.forms import formset_factory
 from django.db.models import Sum, Max, F
@@ -106,7 +106,7 @@ def lista_clientes(request, pk=None):
         if form.is_valid():
             cliente = form.save(commit=False)
             direccion = form.cleaned_data['direccion']
-            response = requests.get('https://maps.googleapis.com/maps/api/geocode/json', params={'address': direccion, 'key': 'AIzaSyDO_INEjUhy0ydbvip__M8d8mrdU5UOyVg'})
+            response = requests.get('https://maps.googleapis.com/maps/api/geocode/json', params={'address': direccion, 'key': API_KEY})
             geodata = response.json()
             if geodata['results']:
                 cliente.latitud = geodata['results'][0]['geometry']['location']['lat']
